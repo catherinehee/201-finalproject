@@ -11,6 +11,11 @@ java {
 	sourceCompatibility = '17'
 }
 
+// added, not included in tutorial
+tasks.withType(Copy).all {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -19,6 +24,34 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+def webappDir = "$projectDir/src/main/webapp" // location of webapp application
+sourceSets {
+	main {
+		resources {
+			srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"] // resources from BOTH react and springboot folders (static folders)
+		}
+	}
+}
+
+processResources {
+	dependsOn "buildReact"
+}
+
+task buildReact(type: Exec) {
+	dependsOn "installReact"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	commandLine "npm", "run-script", "build"
+}
+
+task installReact(type: Exec) {
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	commandLine "npm", "install"
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-package com.csci201.finalproject;
+package com.csci201.finalproject.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class UserService {
 
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
-        DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(username);
+        DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(username); // username = document name
 
         ApiFuture<DocumentSnapshot> future=documentReference.get();
 
@@ -87,4 +87,7 @@ public class UserService {
         return "Document with User ID"+name+" has been deleted successfully";
 
     }
+
+    // TODO: createDocument (User or FileSystem)
+    // TODO: User Authentication
 }
