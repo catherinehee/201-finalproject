@@ -15,6 +15,7 @@ function DocumentEditPage() {
   const [userID] = useState(generateSessionId());
   const editorRef = useRef(null);
   const monacoRef = useRef(null);
+  var decorations = [];
 
   useEffect(() => {
     const contentRef = ref(database, 'documents/' + documentID + '/content');
@@ -49,16 +50,16 @@ function DocumentEditPage() {
     const newDecorations =  Object.entries(cursors || {}).map(([id, cursorData]) => {
        console.log("ID: " + id);
        console.log(cursorData);
+       var dec = [];
        if (id === userID) return []; // Ignore own cursor
-       const decorations = [];
        // Cursor Decoration
-       decorations.push({
+       dec.push({
          range: new monacoRef.current.Range(cursorData.line, cursorData.column, cursorData.line, cursorData.column),
          options: { isWholeLine: false, className: 'remote-cursor' }
        });
        // Selection Highlighting (if present)
        if (cursorData.selection && cursorData.selection.startLineNumber !== cursorData.selection.endLineNumber) {
-         decorations.push({
+         dec.push({
            range: new monacoRef.current.Range(
              cursorData.selection.startLineNumber,
              cursorData.selection.startColumn,
@@ -68,11 +69,12 @@ function DocumentEditPage() {
            options: { className: 'remote-selection' }
          });
        }
-       return decorations;
+       return dec;
      }).flat();
+     console.log(decorations)
 
     // Clear existing decorations and apply the new ones
-    editorRef.current.deltaDecorations([], newDecorations);
+    decorations = editorRef.current.deltaDecorations(decorations, newDecorations);
   };
 
   const handleEditorDidMount = (editor, monaco) => {
