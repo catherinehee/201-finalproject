@@ -84,7 +84,8 @@ function LoginPage() {
           Sign in with GitHub
         </button>
         <div className="signup-prompt">
-          Don't have an account? <span className="signup-link">Sign Up</span>
+          Don't have an account?
+          <span className="signup-link">Sign Up</span>
         </div>
       </form>
     </div>
