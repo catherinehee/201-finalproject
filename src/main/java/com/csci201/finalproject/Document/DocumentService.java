@@ -27,7 +27,6 @@ public class DocumentService {
     }
 
     public Document getDocumentDetailsByName(String name) throws ExecutionException, InterruptedException {
-
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
         DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(name);
@@ -43,8 +42,6 @@ public class DocumentService {
         }else{
             return null;
         }
-
-
     }
 
     public List<Document> getDocumentDetails() throws ExecutionException, InterruptedException {
@@ -61,11 +58,9 @@ public class DocumentService {
 
             document=documentSnapshot.toObject(Document.class);
             docList.add(document);
-
         }
         return docList;
     }
-
 
     public String updateDocument(Document document) throws ExecutionException, InterruptedException {
 

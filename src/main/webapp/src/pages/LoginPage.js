@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from '../firebase'; // Assuming you have this export in your firebase.js
 import '../css/LoginPage.css';
-
+import { Link } from 'react-router-dom';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -47,10 +47,6 @@ function LoginPage() {
       });
   };
 
-
-
-
-
   return (
     <div className="login-container">
       <form onSubmit={handleLogin}>
@@ -85,7 +81,6 @@ function LoginPage() {
         </button>
         <div className="signup-prompt">
           Don't have an account?
-          <span className="signup-link">Sign Up</span>
         </div>
       </form>
     </div>

@@ -1,0 +1,8 @@
+.remote-cursor {
+  border-left: 2px solid #ff4500; /* Orange cursor */
+  margin-left: -2px; /* Align the border with the text */
+}
+
+.remote-selection {
+  background-color: rgba(0, 0, 255, 0.2); /* Example: semi-transparent blue for selection */
+}
