@@ -5,6 +5,7 @@ import { auth, database, firestore } from '../firebase';
 import { Link } from 'react-router-dom';
 import { doc, setDoc } from "firebase/firestore"; 
 import Cookies from 'js-cookie'
+import { onSnapshot, doc } from "firebase/firestore";
 
 function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -64,6 +65,12 @@ function SignUpPage() {
   async function storeUserData(uid, userData) {
     try {
       Cookies.set('uid', uid, { expires: 7 });
+
+
+
+
+
+
       const userDocRef = doc(firestore, 'users', uid);
       await setDoc(userDocRef, userData);
       console.log('User data stored successfully');
