@@ -13,7 +13,7 @@
    - Firebase App ID
    - Firebase Measurement ID
 
-3. In your `my-app` folder, create a `.env` file if it doesn't already exist.
+3. In your `webapp` folder, create a `.env` file if it doesn't already exist.
 
 4. Add the following Firebase configuration variables to your `.env` file:
 
@@ -25,3 +25,22 @@ REACT_APP_FIREBASE_STORAGE_BUCKET="Your-Storage-Bucket"
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID="Your-Messaging-Sender-ID"
 REACT_APP_FIREBASE_APP_ID="Your-App-ID"
 REACT_APP_FIREBASE_MEASUREMENT_ID="Your-Measurement-ID"
+```
+
+### Running the App
+
+**Navigate to the web app folder:**
+
+```bash
+cd src/main/webapp
+```
+
+Install project dependencies:
+```bash
+npm install
+```
+
+Start the development server:
+```bash
+npm start
+```
