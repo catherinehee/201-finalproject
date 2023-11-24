@@ -17,11 +17,28 @@ import com.google.firebase.cloud.FirestoreClient;
 public class UserService {
     private static final String COLLECTION_NAME ="users" ;
 
+    public List<String> getDocumentsByUser(String userid) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore= FirestoreClient.getFirestore();
+
+        DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(userid); // username = document name
+
+        ApiFuture<DocumentSnapshot> future=documentReference.get();
+
+        DocumentSnapshot document=future.get();
+
+
+        if(document.exists()) {
+            List<String> arr  = (List<String>) document.get("documents");
+            return  arr;
+        }else{
+            return null;
+        }
+    }
     public String saveUser(User user) throws ExecutionException, InterruptedException {
 
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
-        ApiFuture<WriteResult> collectionApiFuture=dbFirestore.collection(COLLECTION_NAME).document(user.getUsername()).set(user);
+        ApiFuture<WriteResult> collectionApiFuture=dbFirestore.collection(COLLECTION_NAME).document(user.getId()).set(user);
 
         return collectionApiFuture.get().getUpdateTime().toString();
 
@@ -72,7 +89,7 @@ public class UserService {
 
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
-        ApiFuture<WriteResult> collectionApiFuture=dbFirestore.collection(COLLECTION_NAME).document(user.getUsername()).set(user);
+        ApiFuture<WriteResult> collectionApiFuture=dbFirestore.collection(COLLECTION_NAME).document(user.getId()).set(user);
 
         return collectionApiFuture.get().getUpdateTime().toString();
 
