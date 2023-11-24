@@ -27,7 +27,8 @@ REACT_APP_FIREBASE_APP_ID="Your-App-ID"
 REACT_APP_FIREBASE_MEASUREMENT_ID="Your-Measurement-ID"
 ```
 
-### Running the App
+
+## Running the App
 
 **Navigate to the web app folder:**
 
