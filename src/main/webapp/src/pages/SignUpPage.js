@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 import '../css/SignUpPage.css';
-import { auth } from '../firebase';
-
+import { auth, database, firestore } from '../firebase';
+import { Link } from 'react-router-dom';
+import { doc, setDoc } from "firebase/firestore"; 
+import Cookies from 'js-cookie'
 
 function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -16,6 +18,12 @@ function SignUpPage() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential)
+        console.log("ID" + userCredential.user.uid)
+        const userData = {
+          email: userCredential.user.email,
+        };
+  
+        storeUserData(userCredential.user.uid, userData);
       }).catch((error) => {
         console.log(error)
       })
@@ -26,15 +34,23 @@ function SignUpPage() {
   const handleGoogleSignUp = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
-      }).catch((error) => {
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("ID" + userCredential.user.uid)
+        const userData = {
+          email: userCredential.user.email,
+        };
+  
+        storeUserData(userCredential.user.uid, userData);
+      })
+      .catch((error) => {
         console.error(error);
       });
   };
 
   //sign up for Github -> needs config
   const handleGitHubSignUp = () => {
+    alert("NOT SET UP YET")
     const provider = new GithubAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -44,10 +60,25 @@ function SignUpPage() {
       });
   };
 
+  //TESTING FOR ADDING ID TO 
+  async function storeUserData(uid, userData) {
+    try {
+      Cookies.set('uid', uid, { expires: 7 });
+      const userDocRef = doc(firestore, 'users', uid);
+      await setDoc(userDocRef, userData);
+      console.log('User data stored successfully');
+    } catch (error) {
+      console.error('Error storing user data:', error);
+    }
+  }
+
+
+
+  //HTML RETURN
   return (
     <div className="login-container">
       <form onSubmit={handleSignUp}>
-        <h2>Create your account</h2>
+        <h1>Create your account</h1>
         <div className="form-group">
           <input
             type="email"
@@ -82,7 +113,7 @@ function SignUpPage() {
         <button onClick={handleGoogleSignUp} className="other-btn">Sign Up with Google</button >
         <button onClick={handleGitHubSignUp} className="other-btn">Sign Up with GitHub</button>
         <div className="signup-prompt">
-          Already have an account? <span className="signup-link">Log In</span>
+          Already have an account? <Link to="/login" style={{ textDecoration: 'none', color: 'blue' }}>Log in</Link>
         </div>
       </form>
     </div>

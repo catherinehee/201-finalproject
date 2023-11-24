@@ -8,6 +8,8 @@ import {
 import { auth } from '../firebase'; // Assuming you have this export in your firebase.js
 import '../css/LoginPage.css';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie'
+
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -50,7 +52,7 @@ function LoginPage() {
   return (
     <div className="login-container">
       <form onSubmit={handleLogin}>
-        <h2>Log in to your account</h2>
+        <h1>Log in to your account</h1>
         <div className="form-group">
           <input
             type="email"
@@ -72,15 +74,19 @@ function LoginPage() {
           />
         </div>
         <button type="submit">Login →</button>
+        
         <button type="button" onClick={handleGoogleLogin} className="other-btn">
+          <img src="../images/google.png" alt="Google Icon MISSING" width="20" height="20" />
           Sign in with Google
         </button>
 
         <button type="button" onClick={handleGitHubLogin} className="other-btn">
+          <img src="../../src/images/github.png" alt="GitHub Icon MISSING" width="20" height="20" />
           Sign in with GitHub
         </button>
+
         <div className="signup-prompt">
-          Don't have an account?
+          Don't have an account? <Link to="/signup" style={{ textDecoration: 'none', color: 'blue' }}>Sign up</Link>
         </div>
       </form>
     </div>
