@@ -1,13 +1,9 @@
+// App.js
 import React from 'react';
-import SignUpPage from './pages/SignUpPage';
-import LoginPage from './pages/LoginPage';
+import AppRouter from './Router';
 
 function App() {
-  return (
-    <div className="App">
-      <LoginPage />
-    </div>
-  );
+  return <AppRouter />;
 }
 
 export default App;

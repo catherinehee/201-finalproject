@@ -12,7 +12,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
 import jakarta.annotation.PostConstruct;
-
 @Service
 public class FirebaseInitializer {
 
@@ -23,7 +22,6 @@ public class FirebaseInitializer {
 
             File file = new File(Objects.requireNonNull(classLoader.getResource("serviceAccountKey.json")).getFile());
             FileInputStream serviceAccount = new FileInputStream(file.getAbsolutePath());
-
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
