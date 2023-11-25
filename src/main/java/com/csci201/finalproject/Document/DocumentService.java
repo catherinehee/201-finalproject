@@ -5,6 +5,8 @@ import java.util.concurrent.ExecutionException;
 
 import com.csci201.finalproject.User.User;
 import com.google.cloud.firestore.*;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
@@ -16,11 +18,20 @@ import javax.print.Doc;
 public class DocumentService {
     private static final String COLLECTION_NAME ="documents" ;
 
+    // ADDING TO REALTIME DATABASE
+    public String addDocument(String userid, String docName) throws ExecutionException, InterruptedException {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("documents");
+        DatabaseReference newDocRef = ref.push();
+        Document newDoc = new Document(userid, new ArrayList<String>(), "", docName);
+        newDocRef.setValueAsync(newDoc);
+        return newDocRef.getKey();
+    }
     public String saveDocument(Document document) throws ExecutionException, InterruptedException {
 
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
-        ApiFuture<WriteResult> collectionApiFuture=dbFirestore.collection(COLLECTION_NAME).document(document.getName()).set(document);
+        ApiFuture<WriteResult> collectionApiFuture=dbFirestore.collection(COLLECTION_NAME).document(document.getDocName()).set(document);
 
         return collectionApiFuture.get().getUpdateTime().toString();
 
@@ -66,7 +77,7 @@ public class DocumentService {
 
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
-        ApiFuture<WriteResult> collectionApiFuture=dbFirestore.collection(COLLECTION_NAME).document(document.getName()).set(document);
+        ApiFuture<WriteResult> collectionApiFuture=dbFirestore.collection(COLLECTION_NAME).document(document.getDocName()).set(document);
 
         return collectionApiFuture.get().getUpdateTime().toString();
 
@@ -131,4 +142,6 @@ public class DocumentService {
         // note: TODO: update username's document array
         return collectionApiFuture.get().getUpdateTime().toString();
     }
+
+    // todo: GET DOCUMENT NAME BY ID
 }

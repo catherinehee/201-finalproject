@@ -1,16 +1,15 @@
 package com.csci201.finalproject.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import com.google.cloud.firestore.*;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
 @Service
@@ -65,6 +64,16 @@ public class UserService {
 
     }
 
+    public String addDocument(String userid, String docid) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore= FirestoreClient.getFirestore();
+
+        DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(userid);
+        ApiFuture<WriteResult> arrayUnion =
+                documentReference.update("documents", FieldValue.arrayUnion(docid));
+        return docid;
+
+
+    }
     public List<User> getUserDetails() throws ExecutionException, InterruptedException {
 
         Firestore dbFirestore= FirestoreClient.getFirestore();
@@ -105,6 +114,14 @@ public class UserService {
 
     }
 
-    // TODO: createDocument (User or FileSystem)
-    // TODO: User Authentication
+    public String deleteDocument(String userid, String docid) throws ExecutionException, InterruptedException{
+        Firestore dbFirestore= FirestoreClient.getFirestore();
+
+        DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(userid);
+        ApiFuture<WriteResult> arrayUnion =
+                documentReference.update("documents", FieldValue.arrayRemove(docid));
+
+        return "Document with doc ID"+docid+" has been deleted successfully";
+
+    }
 }

@@ -3,9 +3,9 @@ import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, Gi
 import '../css/SignUpPage.css';
 import { auth, database, firestore } from '../firebase';
 import { Link } from 'react-router-dom';
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import Cookies from 'js-cookie'
-import { onSnapshot, doc } from "firebase/firestore";
+// import { onSnapshot, doc } from "firebase/firestore";
 
 function SignUpPage() {
   const [email, setEmail] = useState('');

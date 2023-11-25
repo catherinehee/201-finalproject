@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class Document {
     private String author;
-    private ArrayList<String>  collaborators;
+    private ArrayList<String> collaborators;
     private String content;
-    private String name;
+    private String docName;
 }

@@ -2,6 +2,7 @@ package com.csci201.finalproject.User;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.csci201.finalproject.Document.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DocumentService documentService;
 
     @PostMapping("/users")
     public String saveUser(@RequestBody User user) throws ExecutionException, InterruptedException {
@@ -32,6 +36,21 @@ public class UserController {
 
         return userService.getDocumentsByUser(userid);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000") // TODO: might delete
+    @PatchMapping("/users/{userid}/documents/{docid}/add")
+    public String addDocument(@PathVariable String userid, @PathVariable String docid) throws ExecutionException, InterruptedException {
+
+        return userService.addDocument(userid, docid);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000") // TODO: might delete
+    @DeleteMapping("/users/{userid}/documents/{docid}/delete")
+    public String deleteDocument(@PathVariable String userid, @PathVariable String docid) throws ExecutionException, InterruptedException {
+
+        return userService.deleteDocument(userid, docid);
+    }
+
     @GetMapping("/users")
     public List<User> getAllUsers() throws ExecutionException, InterruptedException {
 
