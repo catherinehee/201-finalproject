@@ -5,12 +5,15 @@ import { auth, database, firestore } from '../firebase';
 import { Link } from 'react-router-dom';
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 // import { onSnapshot, doc } from "firebase/firestore";
 
 function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+    const navigate = useNavigate();
+
 
   //default email and pass singup
   const handleSignUp = (event) => {
@@ -22,13 +25,14 @@ function SignUpPage() {
         console.log("ID" + userCredential.user.uid)
         const userData = {
           email: userCredential.user.email,
+          id: userCredential.user.uid
         };
   
         storeUserData(userCredential.user.uid, userData);
       }).catch((error) => {
         console.log(error)
       })
-
+    navigate('/');
   };
 
   //signup for Google
@@ -120,7 +124,8 @@ function SignUpPage() {
         <button onClick={handleGoogleSignUp} className="other-btn">Sign Up with Google</button >
         <button onClick={handleGitHubSignUp} className="other-btn">Sign Up with GitHub</button>
         <div className="signup-prompt">
-          Already have an account? <Link to="/login" style={{ textDecoration: 'none', color: 'blue' }}>Log in</Link>
+          Already have an account?
+          <Link to="/login" style={{ textDecoration: 'none', color: 'blue' }}>Log in</Link>
         </div>
       </form>
     </div>

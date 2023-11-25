@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 
-function NavBar({userid}) {
+function NavBar({uid}) {
 
 
   return (
     <div>
-      <h2>User ID: {userid}</h2>
+      <h2>User ID: {uid}</h2>
     </div>
   );
 }

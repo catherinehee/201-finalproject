@@ -1,9 +1,7 @@
 package com.csci201.finalproject.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Array;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import com.google.cloud.firestore.*;
@@ -67,9 +65,23 @@ public class UserService {
     public String addDocument(String userid, String docid) throws ExecutionException, InterruptedException {
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
-        DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(userid);
-        ApiFuture<WriteResult> arrayUnion =
-                documentReference.update("documents", FieldValue.arrayUnion(docid));
+        DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(userid);
+
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot documentSnapshot = future.get();
+        Map<String, Object> map = documentSnapshot.getData();
+        if (!map.containsKey("documents")) { // create new field if documents does not exist yet
+            System.out.println("creating Document field");
+            Map<String, Object> data = new HashMap<>();
+
+            data.put("documents", Arrays.asList(docid));
+            ApiFuture<WriteResult> addedDocRef = documentReference.set(data, SetOptions.merge());
+        } else {
+            System.out.println("reached Array Union");
+            ApiFuture<WriteResult> arrayUnion =
+                    documentReference.update("documents", FieldValue.arrayUnion(docid));
+        }
+
         return docid;
 
 

@@ -2,20 +2,20 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import NavBar from '../components/navBar';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 function FileSystem() {
-    let {userid} = useParams();
-    const [documents, setDocuments] = useState([])
+    let { uid } = useParams();
+    const [documents, setDocuments] = useState([]);
     const [newDocumentName, setNewDocumentName] = useState("");
-
+    const navigate = useNavigate();
 
     // render header: with current user info -> user id
     useEffect(() => {
         const retrieveDocuments = () => {
-            const retrieveDocumentsApi =  `http://localhost:8080/api/users/${userid}/documents`
-
+            const retrieveDocumentsApi =  `http://localhost:8080/api/users/${uid}/documents`
+            console.log(retrieveDocumentsApi);
             axios.get(retrieveDocumentsApi)
                 .then((response) => response.data)
                 .then((data) => {
@@ -26,11 +26,16 @@ function FileSystem() {
                 })
 
         }
+        console.log("retrieving documents");
         retrieveDocuments();
-    }, [userid])
+    }, [uid])
+
+    const openDocument = (documentId) => {
+        navigate(`/documents/edit/${documentId}`)
+    }
 
     const addDocument = (documentName) => {
-            const addDocumentApi = `http://localhost:8080/api/documents/${userid}/${documentName}/add`;
+            const addDocumentApi = `http://localhost:8080/api/documents/${uid}/${documentName}/add`;
 
             axios.post(addDocumentApi )
                 .then((response) => {
@@ -39,7 +44,7 @@ function FileSystem() {
                     // Update documents list with the new document ID
                     setDocuments((prevDocuments) => [...prevDocuments, newDocumentId]);
 
-                    const updateUserDocumentsApi = `http://localhost:8080/api/users/${userid}/documents/${newDocumentId}/add`;
+                    const updateUserDocumentsApi = `http://localhost:8080/api/users/${uid}/documents/${newDocumentId}/add`;
                     axios.patch(updateUserDocumentsApi)
                     .then((updateResp) => {
                         console.log(updateResp.data);
@@ -54,7 +59,7 @@ function FileSystem() {
             };
 
         const removeDocument = (documentId) => {
-                    const removeDocumentApi = `http://localhost:8080/api/users/${userid}/documents/${documentId}/delete`;
+                    const removeDocumentApi = `http://localhost:8080/api/users/${uid}/documents/${documentId}/delete`;
 
                     axios.delete(removeDocumentApi)
                         .then(() => {
@@ -73,17 +78,22 @@ function FileSystem() {
         <div>
 
             {/* Render header with current user info */}
-            <NavBar userid={userid}/>
+            <NavBar uid={uid}/>
 
             {/* Render documents */}
             <h3>Documents:</h3>
             <ul>
-            {documents.map((documentId, index) => (
-                <li key={index}>
-                    {documentId}
-                    <button onClick={() => removeDocument(documentId)}>Remove Document</button>
-                </li>
-                ))}
+                  {Array.isArray(documents) ? (
+                    documents.map((documentId, index) => (
+                      <li key={index}>
+                        {documentId}
+                        <button onClick={() => removeDocument(documentId)}>Remove Document</button>
+                        <button onClick={() => openDocument(documentId)}>Open Document</button>
+                      </li>
+                    ))
+                  ) : (
+                    <p>Loading documents...</p>
+                  )}
             </ul>
 
 

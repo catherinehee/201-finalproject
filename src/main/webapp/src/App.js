@@ -1,9 +1,16 @@
-// App.js
+
 import React from 'react';
 import AppRouter from './Router';
+import FileSystem from './pages/FileSystem';
 
 function App() {
-  return <AppRouter />;
+  return (
+    <div>
+         <AppRouter />
+    </div>
+  )
+
+
 }
 
 export default App;

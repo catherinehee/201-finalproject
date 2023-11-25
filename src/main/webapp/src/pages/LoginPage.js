@@ -86,7 +86,8 @@ function LoginPage() {
         </button>
 
         <div className="signup-prompt">
-          Don't have an account? <Link to="/signup" style={{ textDecoration: 'none', color: 'blue' }}>Sign up</Link>
+          Don't have an account?
+          <Link to="/signup" style={{ textDecoration: 'none', color: 'blue' }}>Sign up</Link>
         </div>
       </form>
     </div>
