@@ -9,11 +9,13 @@ import { auth } from '../firebase'; // Assuming you have this export in your fir
 import '../css/LoginPage.css';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -25,6 +27,8 @@ function LoginPage() {
       .catch((error) => {
         console.error(error);
       });
+
+      navigate('/');
   };
 
   const handleGoogleLogin = () => {

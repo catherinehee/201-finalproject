@@ -1,5 +1,6 @@
 package com.csci201.finalproject.User;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import com.csci201.finalproject.Document.DocumentService;
@@ -32,7 +33,7 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:3000") // TODO: might delete
     @GetMapping("/users/{userid}/documents")
-    public List<String> getDocumentsByUser(@PathVariable String userid) throws ExecutionException, InterruptedException {
+    public List<Map<String, String>> getDocumentsByUser(@PathVariable String userid) throws ExecutionException, InterruptedException {
 
         return userService.getDocumentsByUser(userid);
     }

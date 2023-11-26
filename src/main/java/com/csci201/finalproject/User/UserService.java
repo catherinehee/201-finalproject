@@ -4,6 +4,8 @@ import java.sql.Array;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+import com.csci201.finalproject.Document.Document;
+import com.csci201.finalproject.Document.DocumentService;
 import com.google.cloud.firestore.*;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ import com.google.firebase.cloud.FirestoreClient;
 public class UserService {
     private static final String COLLECTION_NAME ="users" ;
 
-    public List<String> getDocumentsByUser(String userid) throws ExecutionException, InterruptedException {
+    public List<Map<String, String>> getDocumentsByUser(String userid) throws ExecutionException, InterruptedException {
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
         DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(userid); // username = document name
@@ -23,10 +25,18 @@ public class UserService {
 
         DocumentSnapshot document=future.get();
 
-
+        DocumentService documentService = new DocumentService();
         if(document.exists()) {
             List<String> arr  = (List<String>) document.get("documents");
-            return  arr;
+            List<Map<String, String>> docInfo = new ArrayList<>();
+            for (String docid : arr) {
+                Map<String, String> map = new HashMap<>();
+                map.put("id", docid);
+                map.put("name",documentService.getDocumentNameById(docid) );
+
+                docInfo.add(map);
+            }
+            return docInfo;
         }else{
             return null;
         }
@@ -81,7 +91,8 @@ public class UserService {
             ApiFuture<WriteResult> arrayUnion =
                     documentReference.update("documents", FieldValue.arrayUnion(docid));
         }
-
+        Map<String, String> data = new HashMap<>();
+        data.put("id", docid);
         return docid;
 
 

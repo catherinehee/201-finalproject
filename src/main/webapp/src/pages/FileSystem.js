@@ -16,6 +16,7 @@ function FileSystem() {
             axios.get(retrieveDocumentsApi)
                 .then((response) => response.data)
                 .then((data) => {
+                    console.log(data);
                     setDocuments(data);
                 })
                 .catch((error) => {
@@ -34,12 +35,17 @@ function FileSystem() {
 
                 axios.post(addDocumentApi )
                     .then((response) => {
-                        const newDocumentId = response.data;
+                        console.log(response.data)
+                        const newDocumentId = response.data.id;
 
                         // Update documents list with the new document ID
-                        setDocuments((prevDocuments) => [...prevDocuments, newDocumentId]);
+                        const newDocument = {
+                            id: newDocumentId,
+                            name: documentName
+                        }
+                        setDocuments((prevDocuments) => [...prevDocuments, newDocument]);
 
-                        const updateUserDocumentsApi = `http://localhost:8080/api/users/${uid}/documents/${newDocumentId}/add`;
+                        const updateUserDocumentsApi = `http://localhost:8080/api/users/${uid}/documents/${newDocument.id}/add`;
                         axios.patch(updateUserDocumentsApi)
                         .then((updateResp) => {
                             console.log(updateResp.data);
@@ -56,11 +62,11 @@ function FileSystem() {
 
         const removeDocument = (documentId) => {
                     const removeDocumentApi = `http://localhost:8080/api/users/${uid}/documents/${documentId}/delete`;
-
+                    console.log(removeDocumentApi);
                     axios.delete(removeDocumentApi)
                         .then(() => {
                             // Update documents list by removing the specified document
-                            setDocuments((prevDocuments) => prevDocuments.filter((id) => id !== documentId));
+                            setDocuments((prevDocuments) => prevDocuments.filter((data) => data.id !== documentId));
                         })
                         .catch((error) => {
                             console.log(error);
@@ -89,11 +95,11 @@ function FileSystem() {
                 <ul>
                     {
                     Array.isArray(documents) ? (
-                    documents.map((documentId, index) => (
+                    documents.map((document, index) => (
                         <li key={index} className="document-item">
-                            <span className="document-name">{documentId}</span>
-                            <button onClick={() => openDocument(documentId)}>View</button>
-                            <button onClick={() => removeDocument(documentId)}>Delete</button>
+                            <span className="document-name">{document.name}</span>
+                            <button onClick={() => openDocument(document.id)}>View</button>
+                            <button onClick={() => removeDocument(document.id)}>Delete</button>
                         </li>
                         ) )):
                         <p>Loading documents... </p>

@@ -47,6 +47,7 @@ body{
 
 .document-item .document-name {
     flex-grow: 1;
+    color: black;
 }
 
 .document-item button {

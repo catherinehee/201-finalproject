@@ -3,6 +3,7 @@ package com.csci201.finalproject.Document;
 import com.csci201.finalproject.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +23,9 @@ public class DocumentController {
     }
 
     @PostMapping("/documents/{userid}/{documentName}/add")
-    public String addDocumentToUser(@PathVariable String userid, @PathVariable String documentName) throws ExecutionException, InterruptedException {
-        String docid = documentService.addDocument(userid, documentName);
-        return docid;
+    public ResponseEntity<Object> addDocumentToUser(@PathVariable String userid, @PathVariable String documentName) throws ExecutionException, InterruptedException {
+
+        return documentService.addDocument(userid, documentName);
     }
 
     @GetMapping("/documents/{documentName}")
