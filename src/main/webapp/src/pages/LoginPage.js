@@ -10,7 +10,8 @@ import '../css/LoginPage.css';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
-
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
+import { database, firestore } from '../firebase';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -23,35 +24,53 @@ function LoginPage() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
+
+        const userData = {
+          email: userCredential.user.email,
+          id: userCredential.user.uid
+        };
+  
+        storeUserData(userCredential.user.uid, userData);
+        navigate('/');
       })
       .catch((error) => {
+        alert('Invalid you idiot ', email, password);
         console.error(error);
       });
 
-      navigate('/');
+      
   };
 
   const handleGoogleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
+      .then((userCredential) => {
+        console.log(userCredential);
+
+        const userData = {
+          email: userCredential.user.email,
+          id: userCredential.user.uid
+        };
+  
+        storeUserData(userCredential.user.uid, userData);
+        navigate('/');
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
-  const handleGitHubLogin = () => {
-    const provider = new GithubAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  async function storeUserData(uid, userData) {
+    try {
+      Cookies.set('uid', uid, { expires: 7 });
+      const userDocRef = doc(firestore, 'users', uid);
+      await setDoc(userDocRef, userData);
+      console.log('User data stored successfully');
+    } catch (error) {
+      console.error('Error storing user data:', error);
+    }
+  }
+ 
 
   return (
     <div className="login-container">
@@ -80,18 +99,15 @@ function LoginPage() {
         <button type="submit">Login →</button>
         
         <button type="button" onClick={handleGoogleLogin} className="other-btn">
-          <img src="../images/google.png" alt="Google Icon MISSING" width="20" height="20" />
+          
           Sign in with Google
         </button>
 
-        <button type="button" onClick={handleGitHubLogin} className="other-btn">
-          <img src="../../src/images/github.png" alt="GitHub Icon MISSING" width="20" height="20" />
-          Sign in with GitHub
-        </button>
+       
 
         <div className="signup-prompt">
           Don't have an account?
-          <Link to="/signup" style={{ textDecoration: 'none', color: 'blue' }}>Sign up</Link>
+          <Link to="/signup" style={{ textDecoration: 'none', color: 'blue' }} >Sign up</Link>
         </div>
       </form>
     </div>

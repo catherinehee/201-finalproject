@@ -29,10 +29,12 @@ function SignUpPage() {
         };
   
         storeUserData(userCredential.user.uid, userData);
+        navigate('/');
       }).catch((error) => {
         console.log(error)
+        alert(error)
       })
-    navigate('/');
+    
   };
 
   //signup for Google
@@ -53,17 +55,7 @@ function SignUpPage() {
       });
   };
 
-  //sign up for Github -> needs config
-  const handleGitHubSignUp = () => {
-    alert("NOT SET UP YET")
-    const provider = new GithubAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
-      }).catch((error) => {
-        console.error(error);
-      });
-  };
+
 
   //TESTING FOR ADDING ID TO 
   async function storeUserData(uid, userData) {
@@ -122,7 +114,7 @@ function SignUpPage() {
         </div>
         <button type="submit">Sign Up →</button>
         <button onClick={handleGoogleSignUp} className="other-btn">Sign Up with Google</button >
-        <button onClick={handleGitHubSignUp} className="other-btn">Sign Up with GitHub</button>
+        
         <div className="signup-prompt">
           Already have an account?
           <Link to="/login" style={{ textDecoration: 'none', color: 'blue' }}>Log in</Link>
