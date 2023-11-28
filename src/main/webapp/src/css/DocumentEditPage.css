@@ -1,0 +1,24 @@
+.remote-cursor {
+  border-left: 2px solid #ff4500; /* Orange cursor */
+  margin-left: -2px; /* Align the border with the text */
+}
+
+.remote-selection {
+  background-color: rgba(0, 0, 255, 0.2); /* Example: semi-transparent blue for selection */
+}
+
+.login-button{
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 200px;
+  margin-top:20px;
+  margin-right:20px;
+}
+
+.login-button:hover {
+  background-color: #C9302C;
+}

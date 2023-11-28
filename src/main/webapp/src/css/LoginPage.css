@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.login-container {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background-color: #0E1424;
+  color: #fff;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-gap: 5px;
+  max-width: 350px;
+  align-items: center;
+}
+
+h1 {
+  color: #fff;
+  margin-bottom: 30px;
+  font-size: 2.5vh;
+}
+
+input, button {
+  grid-column-start: 0;
+  grid-column-end: 1;
+}
+
+button {
+  background-color: #004083;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.signup-prompt {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.signup-link {
+  color: #004083;
+  cursor: pointer;
+}
+
+.other-btn {
+  background-color: #2B3245;
+}

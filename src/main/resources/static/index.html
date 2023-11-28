@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Editing</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stomp-websocket/lib/stomp.min.js"></script>
+</head>
+<body>
+<h2>Hello World - API is online!</h2>
+<!--<h2>Real-Time Code Editor</h2>-->
+<!--<textarea id="codeEditor" rows="10" cols="30"></textarea>-->
+
+<!--<script type="text/javascript">-->
+<!--    var stompClient = null;-->
+
+<!--    function connect() {-->
+<!--        var socket = new SockJS('/realtime');-->
+<!--        stompClient = Stomp.over(socket);-->
+<!--        stompClient.connect({}, function (frame) {-->
+<!--            console.log('Connected: ' + frame);-->
+<!--            stompClient.subscribe('/topic/updates', function (update) {-->
+<!--                document.getElementById("codeEditor").value = update.body;-->
+<!--            });-->
+<!--        });-->
+<!--    }-->
+
+<!--    function sendEdit() {-->
+<!--        var text = document.getElementById("codeEditor").value;-->
+<!--        stompClient.send("/app/editCode", {}, text);-->
+<!--    }-->
+
+<!--    document.getElementById("codeEditor").addEventListener("input", sendEdit);-->
+
+<!--    connect();-->
+<!--</script>-->
+<!--</body>-->
+</html>
