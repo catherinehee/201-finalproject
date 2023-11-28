@@ -72,22 +72,32 @@ function FileSystem() {
                             console.log(error);
                         });
                     };
-                    
-        //THE LOGOUT FUNCTION -> FOR JUN!!!
-        const handleLogout = () => {
-            document.cookie = 'uid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';       
+
+
+            const handleBackToDocument = () => {
+               navigate('/${uid}/files');
+            };
+            const handleLogout = () => {
+            document.cookie = 'uid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
             navigate('/login');
         };
+
 
             useEffect(() => { // runs every time documents gets updated (re-renders page documents page)
                 console.log('Documents have been updated:', documents);
                 }, [documents]);
 
     return (
+    <div>
+           <NavBar
+             displayInfo={{ label: "User ID", value: uid }}
+             onLogout={handleLogout}
+             onBackToDocument={handleBackToDocument}
+             showBackButton={false}
+           />
         <div className="file-system-container">
-            <NavBar uid={uid} />
+
             <div className="add-document-bar">
-            <button className="logout-button" onClick={handleLogout}>Logout</button>
                 <input
                     type="text"
                     id="newDocumentName"
@@ -115,6 +125,8 @@ function FileSystem() {
                 </ul>
             </div>
         </div>
+        </div>
+
     );
 }
 

@@ -4,18 +4,23 @@ import { ref, onValue, set, onDisconnect } from 'firebase/database';
 import { database } from '../firebase';
 import Editor from '@monaco-editor/react';
 import '../css/DocumentEditPage.css';
+import NavBar from '../components/navBar';
+import {useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const generateSessionId = () => {
   return `guest_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 };
 
 function DocumentEditPage() {
+    const userid = Cookies.get('uid');
   const { documentID } = useParams();
   const [documentContent, setDocumentContent] = useState('');
   const [userID] = useState(generateSessionId());
   const editorRef = useRef(null);
   const monacoRef = useRef(null);
   var decorations = [];
+    const navigate = useNavigate();
 
   useEffect(() => {
     const contentRef = ref(database, 'documents/' + documentID + '/content');
@@ -98,6 +103,15 @@ function DocumentEditPage() {
     });
   };
 
+    const handleLogout = () => {
+        document.cookie = 'uid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        navigate('/login');
+    };
+
+    const handleBackToDocument = () => {
+        navigate(`/${userid}/files`);
+    };
+
   const handleEditorChange = (value, event) => {
     setDocumentContent(value);
     const contentRef = ref(database, 'documents/' + documentID + '/content');
@@ -106,7 +120,12 @@ function DocumentEditPage() {
 
   return (
     <div>
-      <h1>Editing Document: {documentID}</h1>
+        <NavBar
+          displayInfo={{ label: "Document ID", value: documentID }}
+          onLogout={handleLogout}
+          onBackToDocument={handleBackToDocument}
+        />
+
       <Editor
         height="90vh"
         theme="dark"
