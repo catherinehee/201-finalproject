@@ -24,7 +24,7 @@ function FileSystem() {
                 });
         };
         retrieveDocuments();
-    }, [uid]);
+    }, []);
 
     const openDocument = (documentId) => {
         navigate(`/documents/edit/${documentId}`);
@@ -33,7 +33,7 @@ function FileSystem() {
     const addDocument = (documentName) => {
                 const addDocumentApi = `http://localhost:8080/api/documents/${uid}/${documentName}/add`;
 
-                axios.post(addDocumentApi )
+                axios.patch(addDocumentApi )
                     .then((response) => {
                         console.log(response.data)
                         const newDocumentId = response.data.id;

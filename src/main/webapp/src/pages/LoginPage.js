@@ -29,7 +29,7 @@ function LoginPage() {
           email: userCredential.user.email,
           id: userCredential.user.uid
         };
-  
+
         storeUserData(userCredential.user.uid, userData);
         navigate('/');
       })
@@ -63,9 +63,9 @@ function LoginPage() {
   async function storeUserData(uid, userData) {
     try {
       Cookies.set('uid', uid, { expires: 7 });
-      const userDocRef = doc(firestore, 'users', uid);
-      await setDoc(userDocRef, userData);
-      console.log('User data stored successfully');
+      //const userDocRef = doc(firestore, 'users', uid);
+      //await setDoc(userDocRef, userData);
+      //console.log('User data stored successfully');
     } catch (error) {
       console.error('Error storing user data:', error);
     }

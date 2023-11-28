@@ -22,7 +22,7 @@ public class DocumentController {
         return documentService.saveDocument(document);
     }
 
-    @PostMapping("/documents/{userid}/{documentName}/add")
+    @PatchMapping("/documents/{userid}/{documentName}/add")
     public ResponseEntity<Object> addDocumentToUser(@PathVariable String userid, @PathVariable String documentName) throws ExecutionException, InterruptedException {
 
         return documentService.addDocument(userid, documentName);

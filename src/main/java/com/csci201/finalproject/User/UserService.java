@@ -28,18 +28,20 @@ public class UserService {
         DocumentService documentService = new DocumentService();
         if(document.exists()) {
             List<String> arr  = (List<String>) document.get("documents");
-            List<Map<String, String>> docInfo = new ArrayList<>();
-            for (String docid : arr) {
-                Map<String, String> map = new HashMap<>();
-                map.put("id", docid);
-                map.put("name",documentService.getDocumentNameById(docid) );
+            if (arr != null && !arr.isEmpty()) {
+                List<Map<String, String>> docInfo = new ArrayList<>();
+                for (String docid : arr) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("id", docid);
+                    map.put("name", documentService.getDocumentNameById(docid));
 
-                docInfo.add(map);
+                    docInfo.add(map);
+                }
+
+                return docInfo;
             }
-            return docInfo;
-        }else{
-            return null;
         }
+        return null;
     }
     public String saveUser(User user) throws ExecutionException, InterruptedException {
 
@@ -91,8 +93,7 @@ public class UserService {
             ApiFuture<WriteResult> arrayUnion =
                     documentReference.update("documents", FieldValue.arrayUnion(docid));
         }
-        Map<String, String> data = new HashMap<>();
-        data.put("id", docid);
+
         return docid;
 
 
