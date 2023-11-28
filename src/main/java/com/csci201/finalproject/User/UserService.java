@@ -43,6 +43,31 @@ public class UserService {
         }
         return null;
     }
+
+    public Set<String> getDocumentNamesByUser(String userid) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore= FirestoreClient.getFirestore();
+
+        DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(userid); // username = document name
+
+        ApiFuture<DocumentSnapshot> future=documentReference.get();
+
+        DocumentSnapshot document=future.get();
+
+        DocumentService documentService = new DocumentService();
+        if(document.exists()) {
+            List<String> arr  = (List<String>) document.get("documents");
+            LinkedList<String> ll = new LinkedList<>(arr);
+            if (ll != null && !ll.isEmpty()) {
+                Set<String> st = new HashSet<>();
+                for (String docid : ll) {
+                    st.add(documentService.getDocumentNameById(docid));
+                }
+
+                return st;
+            }
+        }
+        return null;
+    }
     public String saveUser(User user) throws ExecutionException, InterruptedException {
 
         Firestore dbFirestore= FirestoreClient.getFirestore();
