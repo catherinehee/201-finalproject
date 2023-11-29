@@ -35,24 +35,30 @@ function FileSystem() {
 
                 axios.patch(addDocumentApi )
                     .then((response) => {
-                        console.log(response.data)
-                        const newDocumentId = response.data.id;
-
-                        // Update documents list with the new document ID
-                        const newDocument = {
-                            id: newDocumentId,
-                            name: documentName
+                        if (response.data == "DUPLICATE") {
+                            console.log(response.data);
+                            window.alert("Don't add duplicate document names!");
                         }
-                        setDocuments((prevDocuments) => [...prevDocuments, newDocument]);
+                        else {
+                            console.log(response.data);
+                            const newDocumentId = response.data.id;
 
-                        const updateUserDocumentsApi = `http://localhost:8080/api/users/${uid}/documents/${newDocument.id}/add`;
-                        axios.patch(updateUserDocumentsApi)
-                        .then((updateResp) => {
-                            console.log(updateResp.data);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
+                            // Update documents list with the new document ID
+                            const newDocument = {
+                                id: newDocumentId,
+                                name: documentName
+                            }
+                            setDocuments((prevDocuments) => [...prevDocuments, newDocument]);
+
+                            const updateUserDocumentsApi = `http://localhost:8080/api/users/${uid}/documents/${newDocument.id}/add`;
+                            axios.patch(updateUserDocumentsApi)
+                            .then((updateResp) => {
+                                console.log(updateResp.data);
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                        }
                     })
                     .catch((error) => {
                         console.log(error);
@@ -119,7 +125,7 @@ function FileSystem() {
                             <button onClick={() => removeDocument(document.id)}>Delete</button>
                         </li>
                         ) )):
-                        <p>Loading documents... </p>
+                        <p>Add your first document!</p>
 
                     }
                 </ul>

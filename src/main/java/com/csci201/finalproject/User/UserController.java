@@ -18,16 +18,10 @@ public class UserController {
     @Autowired
     private DocumentService documentService;
 
-//    @PostMapping("/users")
-//    public String saveUser(@RequestBody User user) throws ExecutionException, InterruptedException {
-//
-//        return userService.saveUser(user);
-//    }
 
     @CrossOrigin(origins = "http://localhost:3000") // TODO: might delete
     @GetMapping("/users/{username}")
     public User getUser(@PathVariable String username) throws ExecutionException, InterruptedException {
-
         return userService.getUserDetailsByUsername(username);
     }
 
