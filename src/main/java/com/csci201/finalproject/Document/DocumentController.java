@@ -15,8 +15,8 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api")
 @DependsOn("Firebase")
+@RequestMapping("/api")
 public class DocumentController {
 
     @Autowired
@@ -31,12 +31,10 @@ public class DocumentController {
 
     @PatchMapping("/documents/{userid}/{documentName}/add")
     public ResponseEntity<Object> addDocumentToUser(@PathVariable String userid, @PathVariable String documentName) throws ExecutionException, InterruptedException {
-
         Set<String> names = userService.getDocumentNamesByUser(userid);
         if (names != null && !names.isEmpty() && names.contains(documentName)) {
             return ResponseEntity.ok().body("DUPLICATE");
         }
-
         return documentService.addDocument(userid, documentName);
     }
 

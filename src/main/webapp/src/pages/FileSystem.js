@@ -10,9 +10,11 @@ function FileSystem() {
     const [newDocumentName, setNewDocumentName] = useState("");
     const navigate = useNavigate();
 
+    const API_BASE_URL = "https://cs201-final.appspot.com";
+
     useEffect(() => {
         const retrieveDocuments = () => {
-            const retrieveDocumentsApi = `http://localhost:8080/api/users/${uid}/documents`;
+            const retrieveDocumentsApi = `${API_BASE_URL}/api/users/${uid}/documents`;
             axios.get(retrieveDocumentsApi)
                 .then((response) => response.data)
                 .then((data) => {
@@ -31,7 +33,7 @@ function FileSystem() {
     };
 
     const addDocument = (documentName) => {
-                const addDocumentApi = `http://localhost:8080/api/documents/${uid}/${documentName}/add`;
+                const addDocumentApi = `${API_BASE_URL}/api/documents/${uid}/${documentName}/add`;
 
                 axios.patch(addDocumentApi )
                     .then((response) => {
@@ -50,7 +52,7 @@ function FileSystem() {
                             }
                             setDocuments((prevDocuments) => [...prevDocuments, newDocument]);
 
-                            const updateUserDocumentsApi = `http://localhost:8080/api/users/${uid}/documents/${newDocument.id}/add`;
+                            const updateUserDocumentsApi = `${API_BASE_URL}/api/users/${uid}/documents/${newDocument.id}/add`;
                             axios.patch(updateUserDocumentsApi)
                             .then((updateResp) => {
                                 console.log(updateResp.data);
@@ -67,7 +69,7 @@ function FileSystem() {
 
 
         const removeDocument = (documentId) => {
-                    const removeDocumentApi = `http://localhost:8080/api/users/${uid}/documents/${documentId}/delete`;
+                    const removeDocumentApi = `${API_BASE_URL}/api/users/${uid}/documents/${documentId}/delete`;
                     console.log(removeDocumentApi);
                     axios.delete(removeDocumentApi)
                         .then(() => {

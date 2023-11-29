@@ -19,6 +19,7 @@ import org.springframework.context.annotation.DependsOn;
 
 import javax.print.Doc;
 
+@DependsOn("Firebase")
 @Service
 public class DocumentService {
     private static final String COLLECTION_NAME ="documents" ;
