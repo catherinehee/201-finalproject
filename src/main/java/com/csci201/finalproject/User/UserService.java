@@ -124,7 +124,6 @@ public class UserService {
 
     }
     public List<User> getUserDetails() throws ExecutionException, InterruptedException {
-
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
         Iterable<DocumentReference> documentReference=dbFirestore.collection(COLLECTION_NAME).listDocuments();
