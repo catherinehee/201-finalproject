@@ -3,6 +3,7 @@ package com.csci201.finalproject.Document;
 import com.csci201.finalproject.User.User;
 import com.csci201.finalproject.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@DependsOn("Firebase")
 @RequestMapping("/api")
 public class DocumentController {
 
@@ -29,12 +31,10 @@ public class DocumentController {
 
     @PatchMapping("/documents/{userid}/{documentName}/add")
     public ResponseEntity<Object> addDocumentToUser(@PathVariable String userid, @PathVariable String documentName) throws ExecutionException, InterruptedException {
-
         Set<String> names = userService.getDocumentNamesByUser(userid);
         if (names != null && !names.isEmpty() && names.contains(documentName)) {
             return ResponseEntity.ok().body("DUPLICATE");
         }
-
         return documentService.addDocument(userid, documentName);
     }
 

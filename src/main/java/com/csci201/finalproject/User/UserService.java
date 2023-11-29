@@ -7,12 +7,14 @@ import java.util.concurrent.ExecutionException;
 import com.csci201.finalproject.Document.Document;
 import com.csci201.finalproject.Document.DocumentService;
 import com.google.cloud.firestore.*;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
 import com.google.firebase.cloud.FirestoreClient;
 
 @Service
+@DependsOn("Firebase")
 public class UserService {
     private static final String COLLECTION_NAME ="users" ;
 
@@ -45,18 +47,17 @@ public class UserService {
     }
 
     public Set<String> getDocumentNamesByUser(String userid) throws ExecutionException, InterruptedException {
-        Firestore dbFirestore= FirestoreClient.getFirestore();
+        Firestore dbFirestore = FirestoreClient.getFirestore();
 
-        DocumentReference documentReference=dbFirestore.collection(COLLECTION_NAME).document(userid); // username = document name
+        DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(userid); // username = document name
 
-        ApiFuture<DocumentSnapshot> future=documentReference.get();
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
 
-        DocumentSnapshot document=future.get();
+        DocumentSnapshot document = future.get();
 
         DocumentService documentService = new DocumentService();
         if(document.exists()) {
             List<String> arr  = (List<String>) document.get("documents");
-
             if (arr != null && !arr.isEmpty()) {
                 LinkedList<String> ll = new LinkedList<>(arr);
                 Set<String> st = new HashSet<>();
@@ -67,8 +68,9 @@ public class UserService {
                 return st;
             }
         }
-        return null;
+        return Collections.emptySet();
     }
+
     public String saveUser(User user) throws ExecutionException, InterruptedException {
 
         Firestore dbFirestore= FirestoreClient.getFirestore();
@@ -125,7 +127,6 @@ public class UserService {
 
     }
     public List<User> getUserDetails() throws ExecutionException, InterruptedException {
-
         Firestore dbFirestore= FirestoreClient.getFirestore();
 
         Iterable<DocumentReference> documentReference=dbFirestore.collection(COLLECTION_NAME).listDocuments();

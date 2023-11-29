@@ -6,9 +6,12 @@ import java.util.concurrent.ExecutionException;
 import com.csci201.finalproject.Document.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.context.annotation.DependsOn;
+
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@DependsOn("Firebase")
 @RequestMapping("/api")
 public class UserController {
 
@@ -18,28 +21,33 @@ public class UserController {
     @Autowired
     private DocumentService documentService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/users/test")
+    public String testUser() throws ExecutionException, InterruptedException {
+        return "test";
+    }
 
-    @CrossOrigin(origins = "http://localhost:3000") // TODO: might delete
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/users/{username}")
     public User getUser(@PathVariable String username) throws ExecutionException, InterruptedException {
         return userService.getUserDetailsByUsername(username);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000") // TODO: might delete
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/users/{userid}/documents")
     public List<Map<String, String>> getDocumentsByUser(@PathVariable String userid) throws ExecutionException, InterruptedException {
 
         return userService.getDocumentsByUser(userid);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000") // TODO: might delete
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PatchMapping("/users/{userid}/documents/{docid}/add")
     public String addDocument(@PathVariable String userid, @PathVariable String docid) throws ExecutionException, InterruptedException {
 
         return userService.addDocument(userid, docid);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000") // TODO: might delete
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/users/{userid}/documents/{docid}/delete")
     public String deleteDocument(@PathVariable String userid, @PathVariable String docid) throws ExecutionException, InterruptedException {
 
@@ -48,7 +56,6 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getAllUsers() throws ExecutionException, InterruptedException {
-
         return userService.getUserDetails();
     }
 
