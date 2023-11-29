@@ -18,6 +18,11 @@ public class UserController {
     @Autowired
     private DocumentService documentService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/users/test")
+    public String testUser() throws ExecutionException, InterruptedException {
+        return "test";
+    }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/users/{username}")
