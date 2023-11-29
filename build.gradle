@@ -146,8 +146,10 @@ tasks.named('test') {
 
 appengine {
 	deploy {
-		projectId = 'cs201-final' // Added line for App Engine project ID
+		projectId = 'cs201-final'
+		version = 'GCLOUD_CONFIG' // Let gcloud generate the version
 		stopPreviousVersion = true
 		promote = true
 	}
 }
+
