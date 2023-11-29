@@ -6,9 +6,12 @@ import java.util.concurrent.ExecutionException;
 import com.csci201.finalproject.Document.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.context.annotation.DependsOn;
+
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@DependsOn("Firebase")
 @RequestMapping("/api")
 public class UserController {
 

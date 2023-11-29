@@ -3,6 +3,7 @@ package com.csci201.finalproject.Document;
 import com.csci201.finalproject.User.User;
 import com.csci201.finalproject.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
+@DependsOn("Firebase")
 public class DocumentController {
 
     @Autowired
