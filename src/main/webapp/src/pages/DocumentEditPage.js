@@ -7,6 +7,7 @@ import '../css/DocumentEditPage.css';
 import NavBar from '../components/navBar';
 import {useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const generateSessionId = () => {
   return `guest_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
@@ -15,6 +16,8 @@ const generateSessionId = () => {
 function DocumentEditPage() {
     const userid = Cookies.get('uid');
   const { documentID } = useParams();
+
+  const [documentName, setDocumentName] = useState('');
   const [documentContent, setDocumentContent] = useState('');
   const [userID] = useState(generateSessionId());
   const editorRef = useRef(null);
@@ -40,6 +43,17 @@ function DocumentEditPage() {
       }
     });
 
+    const getDocumentName = (documentID) => {
+        const getDocumentApi = `http://localhost:8080/api/documents/id/${documentID}`;
+        axios.get(getDocumentApi)
+            .then((response) => response.data)
+            .then((data) => {
+                setDocumentName(data);
+            })
+            .catch((error) => { console.error(error); });
+    };
+
+    getDocumentName(documentID);
     return () => {
       unsubscribeContent();
       unsubscribeCursors();
@@ -121,7 +135,7 @@ function DocumentEditPage() {
   return (
     <div>
         <NavBar
-          displayInfo={{ label: "Document ID", value: documentID }}
+          displayInfo={{ label: "Document Name", value: documentName }}
           onLogout={handleLogout}
           onBackToDocument={handleBackToDocument}
         />

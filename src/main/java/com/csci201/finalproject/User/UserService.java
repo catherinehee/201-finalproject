@@ -56,8 +56,9 @@ public class UserService {
         DocumentService documentService = new DocumentService();
         if(document.exists()) {
             List<String> arr  = (List<String>) document.get("documents");
-            LinkedList<String> ll = new LinkedList<>(arr);
-            if (ll != null && !ll.isEmpty()) {
+
+            if (arr != null && !arr.isEmpty()) {
+                LinkedList<String> ll = new LinkedList<>(arr);
                 Set<String> st = new HashSet<>();
                 for (String docid : ll) {
                     st.add(documentService.getDocumentNameById(docid));

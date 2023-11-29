@@ -44,6 +44,13 @@ public class DocumentController {
         return documentService.getDocumentDetailsByName(documentName);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/documents/id/{docid}")
+    public String getDocumentName(@PathVariable String docid) throws ExecutionException, InterruptedException {
+
+        return documentService.getDocumentNameById(docid);
+    }
+
     @GetMapping("/documents")
     public List<Document> getAllDocuments() throws ExecutionException, InterruptedException {
 
