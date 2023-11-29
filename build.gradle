@@ -143,3 +143,11 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+appengine {
+	deploy {
+		projectId = 'cs201-final' // Added line for App Engine project ID
+		stopPreviousVersion = true
+		promote = true
+	}
+}
