@@ -2,6 +2,12 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.5'
 	id 'io.spring.dependency-management' version '1.1.3'
+	id 'com.google.cloud.tools.appengine' version '2.4.4'
+}plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.5'
+	id 'io.spring.dependency-management' version '1.1.3'
+	id 'com.google.cloud.tools.appengine' version '2.4.4'
 }
 
 group = 'com.csci201'
@@ -26,33 +32,105 @@ repositories {
 	mavenCentral()
 }
 
-def webappDir = "$projectDir/src/main/webapp" // location of webapp application
-sourceSets {
-	main {
-		resources {
-			srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"] // resources from BOTH react and springboot folders (static folders)
-		}
+//
+//def webappDir = "$projectDir/src/main/webapp" // location of webapp application
+//sourceSets {
+//	main {
+//		resources {
+//			srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"] // resources from BOTH react and springboot folders (static folders)
+//		}
+//	}
+//}
+//
+//processResources {
+//	dependsOn "buildReact"
+//}
+//
+//task buildReact(type: Exec) {
+//	dependsOn "installReact"
+//	workingDir "$webappDir"
+//	inputs.dir "$webappDir"
+//	group = BasePlugin.BUILD_GROUP
+//	commandLine "npm", "run-script", "build"
+//}
+//
+//task installReact(type: Exec) {
+//	workingDir "$webappDir"
+//	inputs.dir "$webappDir"
+//	group = BasePlugin.BUILD_GROUP
+//	commandLine "npm", "install"
+//}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	compileOnly 'org.projectlombok:lombok'
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+}
+
+tasks.named('bootBuildImage') {
+	builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+group = 'com.csci201'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+// added, not included in tutorial
+tasks.withType(Copy).all {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
 	}
 }
 
-processResources {
-	dependsOn "buildReact"
+repositories {
+	mavenCentral()
 }
 
-task buildReact(type: Exec) {
-	dependsOn "installReact"
-	workingDir "$webappDir"
-	inputs.dir "$webappDir"
-	group = BasePlugin.BUILD_GROUP
-	commandLine "npm", "run-script", "build"
-}
-
-task installReact(type: Exec) {
-	workingDir "$webappDir"
-	inputs.dir "$webappDir"
-	group = BasePlugin.BUILD_GROUP
-	commandLine "npm", "install"
-}
+//
+//def webappDir = "$projectDir/src/main/webapp" // location of webapp application
+//sourceSets {
+//	main {
+//		resources {
+//			srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"] // resources from BOTH react and springboot folders (static folders)
+//		}
+//	}
+//}
+//
+//processResources {
+//	dependsOn "buildReact"
+//}
+//
+//task buildReact(type: Exec) {
+//	dependsOn "installReact"
+//	workingDir "$webappDir"
+//	inputs.dir "$webappDir"
+//	group = BasePlugin.BUILD_GROUP
+//	commandLine "npm", "run-script", "build"
+//}
+//
+//task installReact(type: Exec) {
+//	workingDir "$webappDir"
+//	inputs.dir "$webappDir"
+//	group = BasePlugin.BUILD_GROUP
+//	commandLine "npm", "install"
+//}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
