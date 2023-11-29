@@ -2,6 +2,7 @@ package com.csci201.finalproject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -20,8 +21,9 @@ public class FirebaseInitializer {
         try {
             ClassLoader classLoader = FinalprojectApplication.class.getClassLoader();
 
-            File file = new File(Objects.requireNonNull(classLoader.getResource("serviceAccountKey.json")).getFile());
-            FileInputStream serviceAccount = new FileInputStream(file.getAbsolutePath());
+//            File file = new File(Objects.requireNonNull(classLoader.getResource("/serviceAccountKey.json")).getFile());
+//            FileInputStream serviceAccount = new FileInputStream(file.getAbsolutePath());
+            InputStream serviceAccount = classLoader.getResourceAsStream("serviceAccountKey.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))

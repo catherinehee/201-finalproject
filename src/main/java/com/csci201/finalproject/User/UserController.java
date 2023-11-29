@@ -48,7 +48,6 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getAllUsers() throws ExecutionException, InterruptedException {
-
         return userService.getUserDetails();
     }
 
