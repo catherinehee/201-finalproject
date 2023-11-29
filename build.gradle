@@ -22,6 +22,11 @@ java {
 	sourceCompatibility = '17'
 }
 
+jar {
+	enabled = false
+	archiveClassifier = ''
+}
+
 // added, not included in tutorial
 tasks.withType(Copy).all {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
