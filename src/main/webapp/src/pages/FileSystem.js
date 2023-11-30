@@ -103,6 +103,7 @@ function FileSystem() {
     <div>
            <NavBar
              displayInfo={{ label: "User ID", value: uid }}
+             showDownloadButton={false}
              onLogout={handleLogout}
              onBackToDocument={handleBackToDocument}
              showBackButton={false}
