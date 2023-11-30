@@ -100,6 +100,17 @@ function DocumentEditPage() {
     editorRef.current = editor;
     monacoRef.current = monaco;
 
+    monaco.editor.defineTheme('customTheme', {
+      base: 'vs-dark',
+      inherit: true,
+      rules: [], 
+      colors: {
+          'editor.background': '#141a30', // Changing only the background color
+      }
+    });
+    
+    monaco.editor.setTheme('customTheme');
+
     editor.onDidChangeCursorPosition(({ position }) => {
       const selection = editor.getSelection();
       const cursorData = {
