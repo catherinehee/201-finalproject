@@ -24,10 +24,11 @@ body {
 .add-document-bar input {
     flex-grow: 1;
     margin-right: 10px;
+    width: 700%;
     padding: 8px;
-    background-color: #333333;
+    background-color: #1a1f37;
     color: #9CDCFE;
-    border: 1px solid #3c3c3c;
+    border: 1px solid #101628;
     border-radius: 4px;
 }
 
@@ -66,7 +67,7 @@ body {
 
 .document-item .document-name {
     flex-grow: 1;
-    color: #9CDCFE;
+    color: #d0d0d0;
 }
 
 .document-item button {
@@ -82,50 +83,50 @@ body {
 }
 
 .document-item button:hover {
-    background-color: #555;
+    background-color: #384654;
 }
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #2a2d3e;
-  padding: 10px;
-  color: white;
-  border-bottom: 1px solid #444;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #161c34;
+    padding: 10px;
+    color: white;
+    border-bottom: 1px solid #101628;
 }
 
 .navbar span {
-  margin-right: auto;
+    margin-right: auto;
 }
 
 .logout-button {
-  background-color: #007acc;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  cursor: pointer;
-  border-radius: 4px;
-  width: 200px;
-  margin-top:20px;
-  margin-right:20px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 200px;
+    margin-top:20px;
+    margin-right:20px;
 
 }
 
 .back-button{
-  background-color: #007acc;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  cursor: pointer;
-  border-radius: 4px;
-  width: 200px;
-  margin-top:20px;
-  margin-right:20px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 200px;
+    margin-top:20px;
+    margin-right:20px;
 }
 
 .logout-button:hover {
-  background-color: #C9302C;
+    background-color: #C9302C;
 }
 
 .back-button:hover {
@@ -146,4 +147,40 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #444;
+}
+
+.icon-html {
+    color: #ff622e;
+    margin-right: 11px;
+    font-size: 24px;
+}
+
+.icon-css {
+    color: #264de4;
+    margin-right: 11px;
+    font-size: 24px;
+}
+
+.icon-js {
+    color: #f7df1e;
+    margin-right: 11px;
+    font-size: 24px;
+}
+
+.icon-java {
+    color: #ff9c1b;
+    margin-right: 11px;
+    font-size: 24px;
+}
+
+.icon-txt {
+    color: #a4ff90;
+    margin-right: 11px;
+    font-size: 24px;
+}
+
+.icon-else {
+    color: #ffffff;
+    margin-right: 11px;
+    font-size: 24px;
 }
