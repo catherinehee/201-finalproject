@@ -22,3 +22,18 @@
 .login-button:hover {
   background-color: #C9302C;
 }
+
+.download-button{
+  background-color: #9237c1;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 50px;
+  margin-top:20px;
+  margin-right:20px;
+}
+
+.download-button:hover{
+  background-color: #732b98;
