@@ -143,10 +143,27 @@ function DocumentEditPage() {
     set(contentRef, value).catch(console.error);
   };
 
+  const handleDownload = () => {
+        if (!editorRef.current) return;
+
+        const code = editorRef.current.getValue();
+        const blob = new Blob([code], { type: 'text/javascript' });
+        const href = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = href;
+        link.download = 'download.js';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+    };
+
   return (
     <div>
         <NavBar
           displayInfo={{ label: "Document Name", value: documentName }}
+          showDownloadButton={true}
+          onDownload={handleDownload}
           onLogout={handleLogout}
           onBackToDocument={handleBackToDocument}
         />
