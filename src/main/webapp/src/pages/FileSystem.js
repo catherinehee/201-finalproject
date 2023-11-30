@@ -139,7 +139,7 @@ function FileSystem() {
                             </li>
                         ))
                     ) : (
-                        <p>Loading documents... </p>
+                        <p>Loading files... </p>
                     )}
                 </ul>
             </div>
