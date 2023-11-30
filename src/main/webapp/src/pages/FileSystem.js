@@ -3,6 +3,10 @@ import axios from 'axios';
 import NavBar from '../components/navBar';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../css/FileSystem.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faJs, faCss3Alt, faHtml5, faJava } from '@fortawesome/free-brands-svg-icons';
+import { faFileAlt, faFile } from '@fortawesome/free-solid-svg-icons';
+
 
 function FileSystem() {
     let { uid } = useParams();
@@ -109,27 +113,34 @@ function FileSystem() {
                 <input
                     type="text"
                     id="newDocumentName"
-                    placeholder="Enter document name"
+                    placeholder="Enter file name"
                     value={newDocumentName}
                     onChange={(e) => setNewDocumentName(e.target.value)}
                 />
-                <button id="add-document-button" onClick={() => addDocument(newDocumentName)}>Add Document</button>
+                <button id="add-document-button" onClick={() => addDocument(newDocumentName)}>Add File</button>
             </div>
             <div className="documents-list">
-                <h3>Documents:</h3>
+                <h3>My Files</h3>
                 <ul>
-                    {
-                    Array.isArray(documents) ? (
-                    documents.map((document, index) => (
-                        <li key={index} className="document-item">
-                            <span className="document-name">{document.name}</span>
-                            <button onClick={() => openDocument(document.id)}>View</button>
-                            <button onClick={() => removeDocument(document.id)}>Delete</button>
-                        </li>
-                        ) )):
-                        <p>Add your first document!</p>
+                    {Array.isArray(documents) ? (
+                        documents.map((document, index) => (
+                            <li key={index} className="document-item">
+                                {document.name.endsWith('.js') && <FontAwesomeIcon icon={faHtml5} className="icon-js"/>}
+                                {document.name.endsWith('.css') && <FontAwesomeIcon icon={faCss3Alt} className="icon-css" />}
+                                {document.name.endsWith('.html') && <FontAwesomeIcon icon={faHtml5} className="icon-html" />}
+                                {document.name.endsWith('.java') && <FontAwesomeIcon icon={faJava} className="icon-java" />}
+                                {document.name.endsWith('.txt') && <FontAwesomeIcon icon={faFileAlt} className="icon-txt" />}
+                                {!document.name.endsWith('.js') && !document.name.endsWith('.css') && !document.name.endsWith('.html') && !document.name.endsWith('.java') && !document.name.endsWith('.txt') && !document.name.endsWith('.readme') && <FontAwesomeIcon icon={faFile} className="icon-else" />}
 
-                    }
+
+                                <span className="document-name">{document.name}</span>
+                                <button onClick={() => openDocument(document.id)}>View</button>
+                                <button onClick={() => removeDocument(document.id)}>Delete</button>
+                            </li>
+                        ))
+                    ) : (
+                        <p>Loading documents... </p>
+                    )}
                 </ul>
             </div>
         </div>
