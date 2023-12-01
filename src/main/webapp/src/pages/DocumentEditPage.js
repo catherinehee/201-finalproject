@@ -30,7 +30,8 @@ const extensionToLanguage = {
 };
 
 function DocumentEditPage() {
-    const userid = Cookies.get('uid');
+  const API_BASE_URL = "https://cs201-final.appspot.com";
+  const userid = Cookies.get('uid');
   const { documentID } = useParams();
 
   const [documentName, setDocumentName] = useState('');
@@ -60,7 +61,7 @@ function DocumentEditPage() {
     });
 
     const getDocumentName = (documentID) => {
-        const getDocumentApi = `http://localhost:8080/api/documents/id/${documentID}`;
+        const getDocumentApi = `${API_BASE_URL}/api/documents/id/${documentID}`;
         axios.get(getDocumentApi)
             .then((response) => response.data)
             .then((data) => {
