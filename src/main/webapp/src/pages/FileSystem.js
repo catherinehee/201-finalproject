@@ -15,6 +15,7 @@ function FileSystem() {
     const navigate = useNavigate();
 
     const API_BASE_URL = "https://cs201-final.appspot.com";
+   // const API_BASE_URL = "http://localhost:8080"
 
     useEffect(() => {
         const retrieveDocuments = () => {
@@ -123,7 +124,7 @@ function FileSystem() {
             <div className="documents-list">
                 <h3>My Files</h3>
                 <ul>
-                    {Array.isArray(documents) ? (
+                    {(Array.isArray(documents) || documents.length != 0) ? (
                         documents.map((document, index) => (
                             <li key={index} className="document-item">
                                 {document.name.endsWith('.js') && <FontAwesomeIcon icon={faHtml5} className="icon-js"/>}
@@ -140,7 +141,7 @@ function FileSystem() {
                             </li>
                         ))
                     ) : (
-                        <p>Loading files... </p>
+                        <p>Add a document! </p>
                     )}
                 </ul>
             </div>
