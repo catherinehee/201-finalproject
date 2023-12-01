@@ -8,9 +8,25 @@ import NavBar from '../components/navBar';
 import {useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faJs, faCss3Alt, faHtml5, faJava } from '@fortawesome/free-brands-svg-icons';
+import { faFileAlt, faFile } from '@fortawesome/free-solid-svg-icons';
 
 const generateSessionId = () => {
   return `guest_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+};
+
+const getFileExtension = (filename) => {
+    const parts = filename.split('.');
+    return parts[parts.length - 1];
+};
+
+const extensionToLanguage = {
+    'js': 'javascript',
+    'css': 'css',
+    'html': 'html',
+    'java': 'java',
+    'txt': 'plaintext',
 };
 
 function DocumentEditPage() {
@@ -54,6 +70,7 @@ function DocumentEditPage() {
     };
 
     getDocumentName(documentID);
+
     return () => {
       unsubscribeContent();
       unsubscribeCursors();
@@ -61,7 +78,20 @@ function DocumentEditPage() {
     };
   }, [documentID, userID]);
 
-  const updateCursorsAndSelections = (cursors) => {
+    const languageMode = extensionToLanguage[getFileExtension(documentName)] || 'plaintext';
+    console.log("Language Mode:", languageMode);
+
+    useEffect(() => {
+        if (editorRef.current && monacoRef.current) {
+            const model = editorRef.current.getModel();
+            if (model) {
+                monacoRef.current.editor.setModelLanguage(model, languageMode);
+            }
+        }
+    }, [documentName, languageMode]);
+
+
+    const updateCursorsAndSelections = (cursors) => {
     console.log('updateCursorsAndSelections called with:', cursors);
 
     if (!monacoRef.current || !editorRef.current) return;
@@ -151,27 +181,54 @@ function DocumentEditPage() {
         const href = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = href;
-        link.download = 'download.js';
+        link.download = documentName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(href);
     };
 
+    const getIconForExtension = (ext) => {
+        switch (ext) {
+            case 'js':
+                return <FontAwesomeIcon icon={faJs} className="icon-js2" />;
+            case 'css':
+                return <FontAwesomeIcon icon={faCss3Alt} className="icon-css2" />;
+            case 'html':
+                return <FontAwesomeIcon icon={faHtml5} className="icon-html2" />;
+            case 'java':
+                return <FontAwesomeIcon icon={faJava} className="icon-java2" />;
+            case 'txt':
+                return <FontAwesomeIcon icon={faFileAlt} className="icon-txt2" />;
+            default:
+                return <FontAwesomeIcon icon={faFile} className="icon-else2" />;
+        }
+    };
+
+    const documentIcon = getIconForExtension(getFileExtension(documentName));
+    const displayInfo = {
+        label: "Current File",
+        value: (
+            <>
+                {documentIcon}
+                <span className="document-name">{documentName}</span>
+            </>
+        ),
+    };
+
   return (
     <div>
         <NavBar
-          displayInfo={{ label: "Document Name", value: documentName }}
-          showDownloadButton={true}
-          onDownload={handleDownload}
-          onLogout={handleLogout}
-          onBackToDocument={handleBackToDocument}
+            displayInfo={displayInfo}
+            showDownloadButton={true}
+            onDownload={handleDownload}
+            onLogout={handleLogout}
+            onBackToDocument={handleBackToDocument}
         />
-
       <Editor
         height="90vh"
         theme="dark"
-        defaultLanguage="javascript"
+        defaultLanguage={languageMode}
         value={documentContent}
         onChange={handleEditorChange}
         onMount={handleEditorDidMount}
