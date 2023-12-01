@@ -35,6 +35,42 @@
   margin-right:20px;
 }
 
-.download-button:hover{
+.download-button:hover {
   background-color: #732b98;
+}
+
+.icon-html2 {
+  color: #ff622e;
+  margin-right: 11px;
+  font-size: 18px;
+}
+
+.icon-css2 {
+  color: #264de4;
+  margin-right: 11px;
+  font-size: 18px;
+}
+
+.icon-js2 {
+  color: #f7df1e;
+  margin-right: 11px;
+  font-size: 18px;
+}
+
+.icon-java2 {
+  color: #ff9c1b;
+  margin-right: 11px;
+  font-size: 18px;
+}
+
+.icon-txt2 {
+  color: #a4ff90;
+  margin-right: 11px;
+  font-size: 18px;
+}
+
+.icon-else2 {
+  color: #ffffff;
+  margin-right: 11px;
+  font-size: 18px;
 }
